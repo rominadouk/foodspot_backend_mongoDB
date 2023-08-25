@@ -1,11 +1,11 @@
-import express from "express"
-const app = express()
-import mongoose from "mongoose"
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+
 require('dotenv').config();
-import cors from "cors"
 
-const URI: string = process.env.MONGO_URI
-
+const URI: any = process.env.MONGO_URI
+const app = express()
 //middleware
 app.use(express.json());
 app.use(cors());
@@ -15,24 +15,24 @@ app.use(cors());
 const FoodSpot = require('../models/FoodSpotSchema.js')
 
 
-
-// GET ONE FOODSPOT
-app.get('/foodspots/:id', async (req, res) => {
-    try {
-        const oneSpot = await FoodSpot.findById();
-        // res.json(oneSpot)
-    } catch (err) {
-        console.log(err)
-    }
-});
-
 // GET ALL FOODSPOTS
-app.get('/', async (req, res) => {
+app.get('/foodspots', async (req, res) => {
     try {
         const allSpots = await FoodSpot.find({});
         res.json(allSpots)
     } catch (err) {
+        console.log(err);
+    }
+});
+
+// GET ONE FOODSPOT
+app.get('/foodspots/:id', async (req, res) => {
+    try {
+        const oneSpot = await FoodSpot.findById(req.params.id);
+        res.json(oneSpot)
+    } catch (err) {
         console.log(err)
+        res.status(500).json({error: 'Internal server error'});
     }
 });
 
