@@ -16,7 +16,7 @@ const FoodSpot = require('../models/FoodSpotSchema.js')
 
 
 // GET ALL FOODSPOTS
-app.get('/foodspots', async (req, res) => {
+app.get('/', async (req, res) => {
     try {
         const allSpots = await FoodSpot.find({});
         res.json(allSpots)
